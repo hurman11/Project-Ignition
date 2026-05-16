@@ -2,7 +2,7 @@
 
 > "I build digital experiences that move — not just visually, but emotionally. Driven by animation, fueled by obsession, and wired for immersive design." — Hurman Ejaz
 
-![Supra Cinematic](https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=2628&auto=format&fit=crop)
+![Supra Cinematic](./src/assets/supra_readme.png)
 
 🏁 PHASE 1: IGNITION (The Vision)
 This isn't just a portfolio; it's a high-performance machine. Inspired by the soul of the Toyota Supra MK4 and the atmospheric intensity of underground tuner culture, Project Supra was engineered to transform the traditional resume into a cinematic interaction experience.
