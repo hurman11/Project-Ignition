@@ -50,18 +50,50 @@ const ScrollProgressHUD = () => {
               {scene}
             </motion.div>
             
+            {/* Outer pulse rings for active dot */}
+            {isActive && (
+              <>
+                <motion.div
+                  className="absolute rounded-full"
+                  animate={{
+                    width: [16, 22, 16],
+                    height: [16, 22, 16],
+                    opacity: [0.2, 0.1, 0.2],
+                  }}
+                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                  style={{
+                    border: '1px solid rgba(255, 107, 0, 0.3)',
+                  }}
+                />
+                <motion.div
+                  className="absolute rounded-full"
+                  animate={{
+                    width: [20, 28, 20],
+                    height: [20, 28, 20],
+                    opacity: [0.1, 0.05, 0.1],
+                  }}
+                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
+                  style={{
+                    border: '1px solid rgba(255, 107, 0, 0.15)',
+                  }}
+                />
+              </>
+            )}
+
             {/* Dot Graphic */}
             <motion.div 
-              className="rounded-full"
+              className="rounded-full relative z-10"
               animate={{
                 width: isActive ? 10 : 6,
                 height: isActive ? 10 : 6,
                 backgroundColor: isActive 
-                  ? '#f97316' 
+                  ? '#FF6B00' 
                   : isPassed 
-                    ? 'rgba(249, 115, 22, 0.3)' 
+                    ? 'rgba(255, 107, 0, 0.3)' 
                     : 'rgba(255, 255, 255, 0.2)',
-                boxShadow: isActive ? '0 0 15px rgba(249, 115, 22, 0.8)' : '0 0 0px rgba(0,0,0,0)'
+                boxShadow: isActive 
+                  ? '0 0 10px rgba(255, 107, 0, 0.6), 0 0 3px rgba(255, 107, 0, 0.4)' 
+                  : '0 0 0px rgba(0,0,0,0)'
               }}
               transition={{ duration: 0.4, ease: 'easeOut' }}
             />

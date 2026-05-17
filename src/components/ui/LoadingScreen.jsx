@@ -9,7 +9,7 @@ const LoadingScreen = () => {
   useEffect(() => {
     // Small delay to prevent immediate flash if cached
     if (!active && progress === 100) {
-      setTimeout(() => setShow(false), 500)
+      setTimeout(() => setShow(false), 800)
     }
   }, [active, progress])
 
@@ -19,8 +19,12 @@ const LoadingScreen = () => {
         <motion.div 
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black pointer-events-auto"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          exit={{ 
+            opacity: 0,
+            scale: 1.05,
+            filter: 'blur(8px)',
+          }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
           {/* Decorative scanning line */}
           <motion.div 
@@ -29,19 +33,40 @@ const LoadingScreen = () => {
             transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
           />
 
-          <div className="text-brand-orange font-black text-2xl tracking-[0.5em] mb-4 drop-shadow-[0_0_10px_rgba(249,115,22,0.8)]">
+          {/* Loading text */}
+          <motion.div 
+            className="text-brand-orange font-black text-2xl tracking-[0.5em] mb-4 drop-shadow-[0_0_10px_rgba(249,115,22,0.8)]"
+            exit={{ y: -20, opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
             IGNITING
-          </div>
+          </motion.div>
+          
+          {/* Progress bar */}
           <div className="w-64 h-[2px] bg-white/10 relative overflow-hidden">
-            <div 
-              className="absolute top-0 left-0 h-full bg-brand-orange transition-all duration-300 shadow-[0_0_10px_#f97316]"
+            <motion.div 
+              className="absolute top-0 left-0 h-full bg-brand-orange shadow-[0_0_10px_#f97316]"
               style={{ width: `${progress}%` }}
+              exit={{ scaleX: 2, opacity: 0 }}
+              transition={{ duration: 0.4 }}
             />
           </div>
-          <div className="text-gray-400 font-mono text-xs mt-4 tracking-widest flex items-center gap-2">
+          
+          {/* Progress text */}
+          <motion.div 
+            className="text-gray-400 font-mono text-xs mt-4 tracking-widest flex items-center gap-2"
+            exit={{ y: 20, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
             <span className="text-brand-orange animate-pulse">●</span> 
             SYSTEM PREP: {Math.round(progress)}%
-          </div>
+          </motion.div>
+
+          {/* Decorative corner brackets */}
+          <div className="absolute top-8 left-8 w-8 h-8 border-t-2 border-l-2 border-brand-orange/30" />
+          <div className="absolute top-8 right-8 w-8 h-8 border-t-2 border-r-2 border-brand-orange/30" />
+          <div className="absolute bottom-8 left-8 w-8 h-8 border-b-2 border-l-2 border-brand-orange/30" />
+          <div className="absolute bottom-8 right-8 w-8 h-8 border-b-2 border-r-2 border-brand-orange/30" />
         </motion.div>
       )}
     </AnimatePresence>
