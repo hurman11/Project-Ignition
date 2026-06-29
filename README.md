@@ -1,83 +1,87 @@
-🏎️ PROJECT SUPRA // THE CINEMATIC PORTFOLIO
+# 🏎️ PROJECT IGNITION // THE CINEMATIC 3D PORTFOLIO
 
-> "I build digital experiences that move — not just visually, but emotionally. Driven by animation, fueled by obsession, and wired for immersive design." — Hurman Ejaz
+> *"I build things that move. Not just visually — emotionally. Driven by animation. Obsessed with craft."* — **Hurman Ejaz**
 
 ![Supra Cinematic](./src/assets/supra_readme.png)
 
-🏁 PHASE 1: IGNITION (The Vision)
-This isn't just a portfolio; it's a high-performance machine. Inspired by the soul of the Toyota Supra MK4 and the atmospheric intensity of underground tuner culture, Project Supra was engineered to transform the traditional resume into a cinematic interaction experience.
+---
 
-Most websites are static showrooms. This is a journey through the garage of a creative developer, where code is the fuel and animation is the exhaust.
+## 🏁 VISION & CONCEPT
+
+**Project Ignition** transforms the traditional developer portfolio into a high-octane, immersive WebGL experience. Inspired by underground tuner culture and engineered around a interactive **3D Toyota Supra MK4**, this site bridges spatial design, physical motion graphics, and full-stack engineering into a seamless digital journey.
 
 ---
 
-🛠️ THE ENGINE (Technical Specifications)
-Under the hood, this machine is tuned for maximum FPS and seamless transitions.
+## 🛠️ THE ENGINE (Technical Architecture)
 
-- Chassis: [React 19](https://react.dev/) + [Vite](https://vitejs.dev/) (For ultra-fast cold starts and HMR)
-- Aero/Visuals: [Tailwind CSS v4](https://tailwindcss.com/) (Streamlined utility styling)
-- Drive Train: [GSAP](https://greensock.com/gsap/) + [ScrollTrigger](https://greensock.com/scrolltrigger/) (Precision scroll-linked animations)
-- Transmission: [Lenis](https://lenis.darkroom.engineering/) (Buttery smooth cinematic scrolling)
-- Interior: [Framer Motion](https://www.framer.com/motion/) (Interactive UI micro-animations)
-- Turbocharger: [Three.js](https://threejs.org/) + [React Three Fiber](https://docs.pmnd.rs/react-three-fiber/) (3D Supra MK4 integration)
+Under the hood, **Project Ignition** is engineered for maximum 60FPS performance, fluid layout transitions, and responsive multi-device synergy:
 
----
-
-📟 TELEMETRY (Core Features)
-
-1. Scroll-Driven Storytelling
-The site behaves like a film. As you scroll, the camera pans through a 3D environment, revealing the developer’s identity, skills, and projects in a linear, cinematic narrative.
-
-2. Custom HUD System
-Every UI element is designed to feel like a high-tech dashboard. From the magnetic custom cursor to the telemetry-style skill tags, the interface is built for immersion.
-
-3. Machine-Themed Projects
-Projects aren't just listed; they are "installed." Each project (like the AI Quiz Generator) is presented as a performance module with detailed specs and cinematic mockups.
-
-4. Dynamic Lighting Systems
-The global gradient background and 3D fog systems react to the theme, shifting between a deep "Midnight Garage" dark mode and a high-visibility light mode.
+- **Core Framework**: [React 19](https://react.dev/) + [Vite](https://vitejs.dev/) (Instant HMR & optimized production bundling)
+- **Styling System**: [Tailwind CSS v4](https://tailwindcss.com/) + CSS Custom Token Variables (Dynamic theme adaptivity)
+- **3D Graphics Engine**: [Three.js](https://threejs.org/) + [React Three Fiber](https://docs.pmnd.rs/react-three-fiber/) + [@react-three/drei](https://github.com/pmndrs/drei)
+- **Scroll Synchronization**: [GSAP ScrollTrigger](https://greensock.com/scrolltrigger/) + [Lenis Scroll](https://lenis.darkroom.engineering/) (Cinematic camera timeline scrubbing)
+- **Interactive Motion Physics**: [Framer Motion](https://www.framer.com/motion/) (Spring physics, kinetic typography, and 3D card tilt)
 
 ---
 
-🔧 ASSEMBLY (Installation)
+## 📟 CORE FEATURES & HIGHLIGHTS
 
-To get this machine running in your local environment, follow the telemetry data below:
+### 1. 🏎️ 3D Supra Integration & Interactive Engine Rev
+- **3D Model Scrubbing**: A fully detailed 3D Toyota Supra MK4 model centered seamlessly across all viewport sections (`IGNITION`, `ORIGIN`, `MACHINES`, `CONTACT`).
+- **Interactive Engine Rev**: Pressing the `REV ENGINE` trigger fires a custom 3D event that vibrates the car chassis with physical engine jitter while blasting intense neon-orange exhaust flame illumination.
 
-1. Clone the repository:
+### 2. 💎 Optical Glass Physics (Reflection & Refraction)
+- **Specular Glare Sheens**: Custom CSS pseudo-element light glare sheens applied to all cards (`.glass-card`, `.craft-card`, `.glass-panel`) and navigation HUD (`.glass-navbar`, `.glass-button`).
+- **Inner Rim Refraction**: Dual-tone specular highlight borders simulating realistic optical light refraction through heavy frosted glass.
+
+### 3. 🌓 Adaptive Dual Theme (Dark / Light Mode)
+- **Radial Ambient Gradient**: Transitions from a deep "Midnight Garage" dark theme to a warm, sun-kissed amber/cream radial gradient in Light Mode.
+- **Dynamic 3D Podium**: Automatically morphs the 3D floor platform into a crisp white metallic display podium in Light Mode.
+
+### 4. 🔤 Kinetic Typography & 3D Tilt Craft Cards
+- **Kinetic Letter Waves**: Individual letters in the hero title (`HURMAN EJAZ`) react to mouse velocity with elastic spring displacement and color ripples.
+- **Perspective 3D Card Tilt**: Craft cards in the `ORIGIN` section react to mouse position with dynamic 3D spatial tilt angles (`rotateX/Y`).
+
+### 5. 📱 Responsive Layout Synergy
+- **Desktop Horizontal Snap**: Pinning scroll-track scrub with exact 33.3% section rounding snap physics.
+- **Mobile Vertical Flow**: Smooth transition to natural vertical scrolling on screens under 768px with responsive 3D model camera framing.
+
+---
+
+## 🔧 ASSEMBLY (Installation & Local Setup)
+
+To spin up Project Ignition locally:
+
+1. **Clone the repository**:
    ```bash
-   git clone https://github.com/hurman11/Portfolio.git
+   git clone https://github.com/hurman11/Project-Ignition.git
    ```
 
-2. Fuel up (Install dependencies):
+2. **Fuel up (Install dependencies)**:
    ```bash
    npm install
    ```
 
-3. Ignition (Start dev server):
+3. **Ignition (Start local dev server)**:
    ```bash
    npm run dev
    ```
 
-4. Nitro (Build for production):
+4. **Nitro (Build production bundle)**:
    ```bash
    npm run build
    ```
 
 ---
 
-👤 THE PILOT (Hurman Ejaz)
+## 👤 THE PILOT
 
-Full Stack Developer // Creative Technologist
+**Hurman Ejaz**  
+*Full Stack Developer // Creative Technologist*
 
-"Driven by animation. Wired for immersion."
-
-- GitHub: [@hurman11](https://github.com/hurman11)
-- LinkedIn: [Hurman Ejaz](https://www.linkedin.com/in/hurman-ejaz-75556b2b5)
-- Email: hurmanejaz@gmail.com
+- **GitHub**: [@hurman11](https://github.com/hurman11)
+- **LinkedIn**: [Hurman Ejaz](https://www.linkedin.com/in/hurman-ejaz-75556b2b5)
 
 ---
 
-📜 LOGBOOK
-This project is an ongoing experiment in visual storytelling. New "Performance Modules" (Projects) are currently being built in the garage.
-
-Signal Received. Connection Established. 📡
+*Signal Received. Engine Ignited. Connection Established. 📡*
