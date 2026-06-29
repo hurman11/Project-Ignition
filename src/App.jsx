@@ -1,5 +1,6 @@
 import { ReactLenis, useLenis } from 'lenis/react'
 import { useEffect, useRef, useLayoutEffect } from 'react'
+import { motion, useScroll, useSpring } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SceneOverlay from './components/ui/SceneOverlay'
@@ -14,6 +15,8 @@ gsap.registerPlugin(ScrollTrigger)
 function App() {
   const containerRef = useRef(null)
   const wrapperRef = useRef(null)
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 30, restDelta: 0.001 })
   
   // Sync Lenis scroll with GSAP ScrollTrigger
   useLenis(ScrollTrigger.update)
@@ -27,7 +30,9 @@ function App() {
   }, [])
 
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
+    const mm = gsap.matchMedia()
+
+    mm.add("(min-width: 768px)", () => {
       const getScrollAmount = () => wrapperRef.current.scrollWidth - window.innerWidth
 
       gsap.to(wrapperRef.current, {
@@ -36,38 +41,47 @@ function App() {
         scrollTrigger: {
           trigger: containerRef.current,
           pin: true,
-          // Extremely snappy scrub (was 1, now 0.1)
           scrub: 0.1,
           end: () => `+=${getScrollAmount()}`,
           invalidateOnRefresh: true,
+          snap: {
+            snapTo: (value) => Math.round(value * 3) / 3,
+            duration: { min: 0.2, max: 0.5 },
+            delay: 0.1,
+            ease: 'power2.inOut'
+          }
         },
       })
-    }, containerRef)
+    })
 
-    return () => ctx.revert()
+    return () => mm.revert()
   }, [])
 
   return (
     <>
-      {/* Loading Screen moved outside Lenis to avoid transform stacking issues */}
       <LoadingScreen />
       
-      {/* Increased lerp to 0.2 for much faster scrolling response */}
       <ReactLenis root options={{ lerp: 0.2, duration: 1.2, smoothTouch: false }}>
-        <div className="relative w-full h-screen overflow-hidden text-white cursor-none" ref={containerRef}>
-          <Cursor />
-          <NavbarHUD />
-          <ScrollProgressHUD />
-          
-          {/* The 3D Canvas will go here and remain fixed in the background */}
-          <div className="fixed inset-0 z-0 pointer-events-none">
-            <SceneController />
-          </div>
+        <Cursor />
+        <NavbarHUD />
+        <ScrollProgressHUD />
 
-          {/* The horizontally scrolling wrapper */}
+        {/* Bottom Progress Bar */}
+        <motion.div 
+          className="fixed bottom-0 left-0 right-0 h-1 z-[100] origin-left bg-gradient-to-r from-brand-orange to-amber-500 shadow-[0_0_12px_rgba(249,115,22,0.8)]"
+          style={{ scaleX }}
+        />
+        
+        {/* 3D Canvas fixed in background */}
+        <div className="fixed inset-0 z-0 pointer-events-none">
+          <SceneController />
+        </div>
+
+        {/* Scrolling container */}
+        <div className="relative w-full h-auto md:h-screen overflow-x-hidden min-h-screen" ref={containerRef} style={{ color: 'var(--text-color)' }}>
           <div 
             ref={wrapperRef} 
-            className="absolute top-0 left-0 h-full flex z-10 w-[400vw] will-change-transform"
+            className="w-full md:w-[400vw] flex flex-col md:flex-row z-10 relative md:absolute top-0 left-0 will-change-transform min-h-screen"
           >
             <SceneOverlay />
           </div>
@@ -78,3 +92,4 @@ function App() {
 }
 
 export default App
+

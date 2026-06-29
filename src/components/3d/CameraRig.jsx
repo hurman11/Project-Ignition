@@ -51,6 +51,11 @@ const CameraRig = () => {
       localProgress
     )
 
+    // Pull camera back on mobile to frame the car in portrait viewport
+    if (window.innerWidth < 768) {
+      targetPos.multiplyScalar(1.4)
+    }
+
     // 5. Smoothly damp current camera state towards the target state
     // We use delta to ensure consistent speed across frame rates
     const dampFactor = 1 - Math.exp(-delta * 4)

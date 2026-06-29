@@ -1,18 +1,23 @@
 import { useScroll, motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { Sun, Moon } from 'lucide-react'
+import { useLenis } from 'lenis/react'
 
-const scenes = ['IGNITION', 'ORIGIN', 'MACHINES', 'CONTACT']
+const scenes = [
+  { id: 'IGNITION', label: 'IGNITION', code: 'I' },
+  { id: 'ORIGIN', label: 'ORIGIN', code: 'II' },
+  { id: 'MACHINES', label: 'MACHINES', code: 'III' },
+  { id: 'CONTACT', label: 'CONTACT', code: 'IV' }
+]
 
 const NavbarHUD = () => {
   const { scrollYProgress } = useScroll()
   const [activeIndex, setActiveIndex] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
-  const [autoExpanded, setAutoExpanded] = useState(true)
   const [theme, setTheme] = useState('dark')
+  const lenis = useLenis()
 
   useEffect(() => {
-    // Check initial theme
     if (document.documentElement.classList.contains('light-mode')) {
       setTheme('light')
     }
@@ -26,143 +31,113 @@ const NavbarHUD = () => {
 
   useEffect(() => {
     return scrollYProgress.on('change', (latest) => {
-      let index = Math.floor(latest * 4)
-      if (index >= 4) index = 3
+      let index = 0
+      if (latest > 0.15) index = 1
+      if (latest > 0.5) index = 2
+      if (latest > 0.85) index = 3
       setActiveIndex(index)
     })
   }, [scrollYProgress])
 
-  // Auto-expand the HUD when the active scene changes
-  useEffect(() => {
-    setAutoExpanded(true)
-    const timer = setTimeout(() => {
-      setAutoExpanded(false)
-    }, 2500)
-    return () => clearTimeout(timer)
-  }, [activeIndex])
+  const scrollToScene = (index) => {
+    if (!lenis) return
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+    const targetProgress = index / (scenes.length - 1)
+    const targetScrollY = targetProgress * maxScroll
+    lenis.scrollTo(targetScrollY, { duration: 1.2, ease: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) })
+  }
 
-  const expanded = isHovered || autoExpanded
+  const currentScene = scenes[activeIndex]
+  // Expand full menu on first section (IGNITION) or when hovering
+  const showMenu = activeIndex === 0 || isHovered
 
   return (
     <nav 
-      className="fixed top-4 md:top-8 left-1/2 -translate-x-1/2 z-50 pointer-events-auto"
+      className="fixed top-4 md:top-8 left-1/2 -translate-x-1/2 z-50 pointer-events-auto w-full max-w-[92vw] md:max-w-[820px] px-2 md:px-6 flex justify-center"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <motion.div 
         layout
-        className="bg-black/80 backdrop-blur-xl px-4 md:px-10 py-3 md:py-4 rounded-full border overflow-hidden flex items-center justify-center min-h-[48px] md:min-h-[56px] shadow-[0_0_20px_rgba(0,0,0,0.8)]"
-        animate={{
-          borderColor: expanded ? "rgba(249, 115, 22, 0.4)" : "rgba(255, 255, 255, 0.05)",
-          boxShadow: expanded 
-            ? "0 0 30px rgba(249, 115, 22, 0.15), inset 0 0 15px rgba(249, 115, 22, 0.05)" 
-            : "0 0 20px rgba(0,0,0,0.8), inset 0 0 0px rgba(0,0,0,0)",
-        }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        whileHover={{ scale: 1.02, y: -2 }}
+        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        className="glass-navbar h-[44px] md:h-[48px] flex items-center justify-between md:justify-start gap-0 px-4 md:px-5 rounded-full shadow-2xl max-w-full"
       >
-        <AnimatePresence mode="popLayout" initial={false}>
-          {!expanded ? (
-            <div className="flex items-center gap-4">
-              <motion.span 
-                key="name"
-                className="font-black tracking-[0.2em] md:tracking-[0.3em] text-white/90 uppercase whitespace-nowrap text-[10px] md:text-xs"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10, filter: 'blur(4px)' }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
-              >
-                Hurman Ejaz
-              </motion.span>
-            </div>
-          ) : (
-            <motion.div 
-              key="menu"
-              className="flex gap-4 md:gap-10 items-center"
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              variants={{
-                hidden: { opacity: 0 },
-                visible: { 
-                  opacity: 1,
-                  transition: { staggerChildren: 0.06, delayChildren: 0.1 }
-                },
-                exit: {
-                  opacity: 0,
-                  transition: { duration: 0.2 }
-                }
-              }}
-            >
-              {/* Scene Indicators */}
-              <div className="flex gap-4 md:gap-10 items-center hidden sm:flex">
-                {scenes.map((scene, i) => {
-                  const isActive = i === activeIndex
-                  return (
-                    <motion.div 
-                      key={scene} 
-                      variants={{
-                        hidden: { opacity: 0, x: -15, filter: 'blur(4px)' },
-                        visible: { opacity: 1, x: 0, filter: 'blur(0px)' },
-                        exit: { opacity: 0, filter: 'blur(4px)' }
-                      }}
-                      transition={{ duration: 0.4, ease: 'easeOut' }}
-                    >
-                      <span 
-                        className={`font-mono text-[10px] md:text-xs tracking-[0.2em] transition-all duration-400 ${
-                          isActive 
-                            ? 'text-brand-orange drop-shadow-[0_0_12px_rgba(249,115,22,0.9)] font-bold' 
-                            : 'text-white/40 hover:text-white drop-shadow-none'
-                        }`}
-                      >
-                        {scene}
-                      </span>
-                    </motion.div>
-                  )
-                })}
-              </div>
+        {/* Brand Name */}
+        <motion.span 
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="font-black text-xs md:text-base tracking-tight cursor-pointer select-none shrink-0 uppercase whitespace-nowrap"
+          style={{ color: 'var(--text-color)' }}
+          onClick={() => scrollToScene(0)}
+        >
+          Hurman Ejaz
+        </motion.span>
 
-              {/* Theme Toggle Button */}
-              <motion.button
-                onClick={toggleTheme}
-                className="relative w-8 h-8 rounded-full flex items-center justify-center border border-white/10 bg-white/5 hover:bg-white/10 hover:border-brand-orange/50 transition-colors ml-2 md:ml-4"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                variants={{
-                  hidden: { opacity: 0, scale: 0.5 },
-                  visible: { opacity: 1, scale: 1 },
-                  exit: { opacity: 0, scale: 0.5 }
-                }}
-              >
-                <AnimatePresence mode="wait">
-                  {theme === 'dark' ? (
-                    <motion.div
-                      key="moon"
-                      initial={{ rotate: -90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: 90, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Moon size={14} className="text-brand-orange" />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="sun"
-                      initial={{ rotate: 90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: -90, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Sun size={14} className="text-yellow-400" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.button>
+        {/* Active Section Tracker (Always visible divider badge) */}
+        <div className="flex items-center gap-1.5 md:gap-2 ml-2 md:ml-3 pl-2 md:pl-3 border-l border-white/10 h-4 shrink-0">
+          <span className="font-mono text-[9px] md:text-[10px] text-brand-orange shrink-0 font-bold">
+            {currentScene.code}
+          </span>
+          <span className="font-mono text-[9px] md:text-[10px] tracking-wider shrink-0 uppercase opacity-60">
+            {currentScene.label}
+          </span>
+        </div>
+
+        {/* Collapsible Navigation Links (Visible on desktop / tablets) */}
+        <AnimatePresence mode="popLayout">
+          {showMenu && (
+            <motion.div 
+              initial={{ opacity: 0, width: 0 }}
+              animate={{ opacity: 1, width: 'auto' }}
+              exit={{ opacity: 0, width: 0 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="hidden sm:flex items-center gap-4 md:gap-8 ml-4 md:ml-8 shrink-0 overflow-hidden"
+            >
+              {scenes.map((scene, i) => {
+                const isActive = i === activeIndex
+                return (
+                  <motion.button
+                    key={scene.id}
+                    onClick={() => scrollToScene(i)}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    className={`text-[10px] md:text-xs font-bold tracking-[0.15em] uppercase transition-all duration-300 bg-none border-none cursor-pointer whitespace-nowrap ${
+                      isActive 
+                        ? 'text-brand-orange underline underline-offset-4 font-extrabold' 
+                        : 'opacity-50 hover:opacity-100'
+                    }`}
+                    style={{ color: isActive ? 'var(--accent-color)' : 'var(--text-color)' }}
+                  >
+                    {scene.id}
+                  </motion.button>
+                )
+              })}
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Theme Switcher Button */}
+        <motion.button
+          onClick={toggleTheme}
+          whileHover={{ scale: 1.25, rotate: 20 }}
+          whileTap={{ scale: 0.8, rotate: 180 }}
+          transition={{ type: "spring", stiffness: 500, damping: 20 }}
+          className="ml-2 md:ml-6 p-1.5 rounded-full flex items-center justify-center bg-transparent border-none cursor-pointer shrink-0"
+          style={{ color: 'var(--text-color)' }}
+          aria-label="Toggle theme"
+        >
+          {theme === 'dark' ? (
+            <Moon size={15} className="text-brand-orange" />
+          ) : (
+            <Sun size={15} className="text-amber-500" />
+          )}
+        </motion.button>
       </motion.div>
     </nav>
   )
 }
 
 export default NavbarHUD
+
+
