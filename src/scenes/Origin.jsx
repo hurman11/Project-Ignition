@@ -63,7 +63,7 @@ const Origin = () => {
         </div>
 
         {/* 3-Column Glassmorphism Cards Grid (Esfyq layout) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 md:mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 md:mb-12" style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}>
           {craftCards.map((card) => (
             <motion.div 
               key={card.title}
@@ -74,6 +74,7 @@ const Origin = () => {
               style={{
                 background: 'var(--surface-bg)',
                 borderColor: 'var(--surface-border)',
+                transformStyle: 'preserve-3d',
               }}
             >
               <h3 className="text-xl font-extrabold mb-3" style={{ color: 'var(--text-color)' }}>

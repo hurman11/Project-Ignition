@@ -23,7 +23,7 @@ const Contact = () => {
         {/* Header matching Esfyq Connection */}
         <div className="text-center space-y-3">
           <span className="font-mono text-brand-orange text-xs uppercase tracking-[0.3em] font-bold block">
-            IV — CONTACT
+            V — CONTACT
           </span>
           <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase" style={{ color: 'var(--text-color)' }}>
             Contact.

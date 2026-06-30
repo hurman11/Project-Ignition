@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import gsap from 'gsap'
+import { useTypewriter } from '../hooks/useTypewriter'
+import LetterHover from '../components/ui/LetterHover'
 
 const heroName = 'HURMAN EJAZ'
 const tagline = 'Driven by animation. Wired for immersion.'
@@ -13,9 +15,8 @@ const Ignition = () => {
   const nameRef = useRef(null)
   const subtitleRef = useRef(null)
   const badgeRef = useRef(null)
-  const [typedText, setTypedText] = useState('')
-  const [showCaret, setShowCaret] = useState(false)
   const [animationReady, setAnimationReady] = useState(false)
+  const { typedText, showCaret, start: startTypewriter } = useTypewriter(tagline)
   
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
   // Parallax offsets mapping scroll progress to X-axis push (disabled on mobile vertical scroll)
@@ -23,21 +24,6 @@ const Ignition = () => {
   const subX = useTransform(scrollYProgress, [0, 0.25], [0, isMobile ? 0 : 250])
   const badgeX = useTransform(scrollYProgress, [0, 0.25], [0, isMobile ? 0 : 100])
   const opacityFade = useTransform(scrollYProgress, [0, 0.2], [1, isMobile ? 1 : 0])
-
-  // Typewriter effect for tagline
-  const startTypewriter = useCallback(() => {
-    setShowCaret(true)
-    let i = 0
-    const interval = setInterval(() => {
-      if (i < tagline.length) {
-        setTypedText(tagline.substring(0, i + 1))
-        i++
-      } else {
-        clearInterval(interval)
-        setTimeout(() => setShowCaret(false), 2000)
-      }
-    }, 40)
-  }, [])
 
   // Trigger the entrance after a delay (matches loading screen exit)
   useEffect(() => {
@@ -134,17 +120,7 @@ const Ignition = () => {
             className="hero-name text-4xl sm:text-6xl md:text-[10rem] font-black uppercase tracking-tighter leading-none drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] whitespace-normal md:whitespace-nowrap cursor-pointer"
             style={{ color: 'var(--text-color)' }}
           >
-            {heroName.split('').map((char, i) => (
-              <motion.span 
-                key={i} 
-                className="hero-letter inline-block pointer-events-auto"
-                style={{ opacity: 0, transform: 'translateY(60px)', color: 'var(--text-color)' }}
-                whileHover={{ scale: 1.25, y: -20 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              >
-                {char === ' ' ? '\u00A0' : char}
-              </motion.span>
-            ))}
+            <LetterHover text={heroName} />
           </h1>
         </motion.div>
         

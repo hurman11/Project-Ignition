@@ -45,7 +45,7 @@ function App() {
           end: () => `+=${getScrollAmount()}`,
           invalidateOnRefresh: true,
           snap: {
-            snapTo: (value) => Math.round(value * 3) / 3,
+            snapTo: (value) => Math.round(value * 4) / 4,
             duration: { min: 0.2, max: 0.5 },
             delay: 0.1,
             ease: 'power2.inOut'
@@ -81,7 +81,7 @@ function App() {
         <div className="relative w-full h-auto md:h-screen overflow-x-hidden min-h-screen" ref={containerRef} style={{ color: 'var(--text-color)' }}>
           <div 
             ref={wrapperRef} 
-            className="w-full md:w-[400vw] flex flex-col md:flex-row z-10 relative md:absolute top-0 left-0 will-change-transform min-h-screen"
+            className="w-full md:w-[500vw] flex flex-col md:flex-row z-10 relative md:absolute top-0 left-0 will-change-transform min-h-screen"
           >
             <SceneOverlay />
           </div>

@@ -7,7 +7,8 @@ const scenes = [
   { id: 'IGNITION', label: 'IGNITION', code: 'I' },
   { id: 'ORIGIN', label: 'ORIGIN', code: 'II' },
   { id: 'MACHINES', label: 'MACHINES', code: 'III' },
-  { id: 'CONTACT', label: 'CONTACT', code: 'IV' }
+  { id: 'LAB', label: 'LAB', code: 'IV' },
+  { id: 'CONTACT', label: 'CONTACT', code: 'V' }
 ]
 
 const NavbarHUD = () => {
@@ -32,9 +33,10 @@ const NavbarHUD = () => {
   useEffect(() => {
     return scrollYProgress.on('change', (latest) => {
       let index = 0
-      if (latest > 0.15) index = 1
-      if (latest > 0.5) index = 2
-      if (latest > 0.85) index = 3
+      if (latest > 0.1) index = 1
+      if (latest > 0.35) index = 2
+      if (latest > 0.6) index = 3
+      if (latest > 0.85) index = 4
       setActiveIndex(index)
     })
   }, [scrollYProgress])

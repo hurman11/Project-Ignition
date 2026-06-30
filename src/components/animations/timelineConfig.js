@@ -5,14 +5,19 @@ export const cameraTimeline = [
     target: [0, 0, 0],
   },
   {
-    progress: 0.33,
+    progress: 0.25,
     position: [0, 0.2, 7.8],
     target: [0, -0.6, 0],
   },
   {
-    progress: 0.66,
+    progress: 0.5,
     position: [5, 1, 4],
     target: [0, 0, 0],
+  },
+  {
+    progress: 0.75,
+    position: [3, 2, 6],
+    target: [0, -0.3, 0],
   },
   {
     progress: 1,
