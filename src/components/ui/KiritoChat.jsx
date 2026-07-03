@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
+import cyberpunkCity from '../../assets/cyberpunk_city_night.png'
+import kiritoAvatar from '../../assets/kirito_avatar.png'
 
 const MESSAGES = [
   { id: 1, type: 'user', text: '.stats', delay: 0 },
@@ -39,12 +41,13 @@ const OsintBlock = () => (
 const ImageBlock = () => (
   <div className="space-y-1.5">
     <p className="font-bold text-brand-orange text-xs">Projection Arts complete, Master.</p>
-    <div
-      className="w-full h-20 rounded-lg flex items-center justify-center text-[10px] tracking-widest font-mono uppercase opacity-80 relative overflow-hidden"
-      style={{ background: 'linear-gradient(135deg, #1a0800 0%, #3d1a00 50%, #1a0800 100%)', border: '1px solid rgba(249,115,22,0.3)' }}
-    >
-      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 30% 60%, rgba(249,115,22,0.25) 0%, transparent 60%)' }} />
-      <span className="relative text-brand-orange">[ generated image ]</span>
+    <div className="w-full h-24 rounded-lg overflow-hidden relative" style={{ border: '1px solid rgba(249,115,22,0.3)' }}>
+      <img
+        src={cyberpunkCity}
+        alt="Generated: cyberpunk city at night"
+        className="w-full h-full object-cover object-center"
+      />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%)' }} />
     </div>
     <p className="text-[10px] italic opacity-50" style={{ color: 'var(--text-secondary)' }}>Backup Nerve Link</p>
   </div>
@@ -155,10 +158,10 @@ const KiritoChat = () => {
         style={{ borderBottom: '1px solid var(--surface-border)', background: 'rgba(0,0,0,0.3)' }}
       >
         <div
-          className="w-9 h-9 rounded-full flex items-center justify-center text-lg shrink-0"
-          style={{ background: 'rgba(249,115,22,0.15)', border: '1px solid rgba(249,115,22,0.4)' }}
+          className="w-9 h-9 rounded-full overflow-hidden shrink-0 border"
+          style={{ borderColor: 'rgba(249, 115, 22, 0.4)' }}
         >
-          &#x2694;&#xFE0F;
+          <img src={kiritoAvatar} alt="Kirito avatar" className="w-full h-full object-cover" />
         </div>
         <div className="flex-1 min-w-0">
           <p className="font-bold text-sm tracking-wide truncate" style={{ color: 'var(--text-color)' }}>Kirito</p>

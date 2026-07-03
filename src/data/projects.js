@@ -17,8 +17,19 @@ export const projects = [
     description: 'WhatsApp AI agent that manages servers, writes code, runs OSINT, and generates media — all through natural conversation. $0/month cloud cost.',
     tags: ['Node.js', 'SQLite', 'Groq', 'Puppeteer', 'Ollama'],
     link: null,
-    github: 'https://github.com/hurman11',
+    github: 'https://github.com/hurman11/Whatsapp-AI-Agent',
     isChatMockup: true,
+    hasCaseStudy: true,
+  },
+  {
+    id: 3,
+    title: 'COMING SOON',
+    description: 'Next machine is being engineered in the garage. Stay tuned.',
+    tags: ['—'],
+    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2670&auto=format&fit=crop',
+    link: null,
+    github: null,
+    isLocked: true
   }
 ]
 

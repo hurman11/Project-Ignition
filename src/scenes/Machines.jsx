@@ -5,12 +5,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { projects } from '../data/projects'
 import { ArrowLeft, ArrowRight, ExternalLink, Github } from 'lucide-react'
 import KiritoChat from '../components/ui/KiritoChat'
+import KiritoCaseStudyModal from '../components/ui/KiritoCaseStudyModal'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const Machines = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
+  const [isCaseStudyOpen, setIsCaseStudyOpen] = useState(false)
   
   const contentRef = useRef(null)
   const imageRef = useRef(null)
@@ -118,33 +120,49 @@ const Machines = () => {
                 <span className="px-6 py-2.5 rounded-full border text-xs font-bold font-mono opacity-40 cursor-not-allowed" style={{ borderColor: 'var(--surface-border)', color: 'var(--text-color)' }}>
                   Locked Spec
                 </span>
-              ) : project.link ? (
-                <motion.a 
-                  href={project.link} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                  className="glass-button inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold font-mono tracking-wider shadow-md"
-                >
-                  <span>Live Demo</span>
-                  <ExternalLink size={14} />
-                </motion.a>
-              ) : null}
-              {project.github && (
-                <motion.a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                  className="glass-button inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold font-mono tracking-wider shadow-md"
-                >
-                  <Github size={13} />
-                  <span>GitHub</span>
-                </motion.a>
+              ) : (
+                <>
+                  {project.link && (
+                    <motion.a 
+                      href={project.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                      className="glass-button inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold font-mono tracking-wider shadow-md"
+                    >
+                      <span>Live Demo</span>
+                      <ExternalLink size={14} />
+                    </motion.a>
+                  )}
+                  {project.hasCaseStudy && (
+                    <motion.button 
+                      onClick={() => setIsCaseStudyOpen(true)}
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                      className="glass-button inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold font-mono tracking-wider shadow-md cursor-pointer"
+                    >
+                      <span>Case Study</span>
+                      <ExternalLink size={14} />
+                    </motion.button>
+                  )}
+                  {project.github && (
+                    <motion.a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                      className="glass-button inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold font-mono tracking-wider shadow-md"
+                    >
+                      <Github size={13} />
+                      <span>GitHub</span>
+                    </motion.a>
+                  )}
+                </>
               )}
             </div>
 
@@ -178,6 +196,27 @@ const Machines = () => {
       >
         {project.isChatMockup ? (
           <KiritoChat />
+        ) : project.isLocked && project.image ? (
+          <div className="w-full h-full relative">
+            <img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover object-center"
+              style={{ filter: 'brightness(0.35) saturate(0.6)' }}
+            />
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+              <div className="text-3xl opacity-50">⚙️</div>
+              <p className="font-mono text-xs uppercase tracking-[0.3em] text-brand-orange font-bold opacity-70">Classified</p>
+              <p className="text-sm font-bold uppercase tracking-widest" style={{ color: 'var(--text-color)', opacity: 0.35 }}>In The Garage</p>
+              <div className="flex gap-1.5 mt-1">
+                {[0,1,2].map(i => (
+                  <span key={i} className="w-1.5 h-1.5 rounded-full bg-brand-orange"
+                    style={{ opacity: 0.5, animation: `kc-bounce 1.4s ease-in-out ${i * 0.25}s infinite` }}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
         ) : (
           <div className="w-full h-full relative">
             <img 
@@ -189,6 +228,12 @@ const Machines = () => {
           </div>
         )}
       </div>
+
+      {/* Kirito Case Study Modal */}
+      <KiritoCaseStudyModal 
+        isOpen={isCaseStudyOpen} 
+        onClose={() => setIsCaseStudyOpen(false)} 
+      />
     </section>
   )
 }
