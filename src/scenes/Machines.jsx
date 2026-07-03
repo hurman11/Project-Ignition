@@ -3,7 +3,8 @@ import { motion } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { projects } from '../data/projects'
-import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ExternalLink, Github } from 'lucide-react'
+import KiritoChat from '../components/ui/KiritoChat'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -110,26 +111,42 @@ const Machines = () => {
             ))}
           </div>
 
-          {/* Action Buttons & Carousel Nav matching Esfyq */}
+          {/* Action Buttons & Carousel Nav */}
           <div className="flex items-center justify-between pt-6 border-t border-white/10 gap-4">
-            {project.isLocked ? (
-              <span className="px-6 py-2.5 rounded-full border text-xs font-bold font-mono opacity-40 cursor-not-allowed" style={{ borderColor: 'var(--surface-border)', color: 'var(--text-color)' }}>
-                Locked Spec
-              </span>
-            ) : (
-              <motion.a 
-                href={project.link} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                className="glass-button inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold font-mono tracking-wider shadow-md"
-              >
-                <span>Live Demo</span>
-                <ExternalLink size={14} />
-              </motion.a>
-            )}
+            <div className="flex items-center gap-2">
+              {project.isLocked ? (
+                <span className="px-6 py-2.5 rounded-full border text-xs font-bold font-mono opacity-40 cursor-not-allowed" style={{ borderColor: 'var(--surface-border)', color: 'var(--text-color)' }}>
+                  Locked Spec
+                </span>
+              ) : project.link ? (
+                <motion.a 
+                  href={project.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                  className="glass-button inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold font-mono tracking-wider shadow-md"
+                >
+                  <span>Live Demo</span>
+                  <ExternalLink size={14} />
+                </motion.a>
+              ) : null}
+              {project.github && (
+                <motion.a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                  className="glass-button inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold font-mono tracking-wider shadow-md"
+                >
+                  <Github size={13} />
+                  <span>GitHub</span>
+                </motion.a>
+              )}
+            </div>
 
             <div className="flex items-center gap-3">
               <button 
@@ -153,21 +170,24 @@ const Machines = () => {
         </div>
       </div>
 
-      {/* Right Side: Visual Image Preview Panel */}
+      {/* Right Side: Chat Mockup or Image Preview */}
       <div 
-        className="w-full md:w-[50%] h-[35vh] md:h-[65vh] relative rounded-2xl overflow-hidden border backdrop-blur-xl shadow-2xl my-auto"
-        style={{
-          borderColor: 'var(--surface-border)',
-        }}
+        ref={imageRef}
+        className="w-full md:w-[50%] h-[50vh] md:h-[65vh] relative rounded-2xl overflow-hidden border backdrop-blur-xl shadow-2xl my-auto"
+        style={{ borderColor: 'var(--surface-border)' }}
       >
-        <div className="w-full h-full relative" ref={imageRef}>
-          <img 
-            src={project.image} 
-            alt={project.title} 
-            className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-        </div>
+        {project.isChatMockup ? (
+          <KiritoChat />
+        ) : (
+          <div className="w-full h-full relative">
+            <img 
+              src={project.image} 
+              alt={project.title} 
+              className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+          </div>
+        )}
       </div>
     </section>
   )

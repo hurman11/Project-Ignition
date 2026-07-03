@@ -12,12 +12,13 @@ export const projects = [
   },
   {
     id: 2,
-    title: 'COMING SOON',
-    description: 'Next machine is in the garage.',
-    tags: ['—'],
-    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2670&auto=format&fit=crop',
+    title: 'KIRITO',
+    subtitle: '⚔️',
+    description: 'WhatsApp AI agent that manages servers, writes code, runs OSINT, and generates media — all through natural conversation. $0/month cloud cost.',
+    tags: ['Node.js', 'SQLite', 'Groq', 'Puppeteer', 'Ollama'],
     link: null,
-    github: null,
-    isLocked: true
+    github: 'https://github.com/hurman11',
+    isChatMockup: true,
   }
 ]
+
