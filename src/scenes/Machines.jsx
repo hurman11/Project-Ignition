@@ -13,6 +13,7 @@ const Machines = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
   const [isCaseStudyOpen, setIsCaseStudyOpen] = useState(false)
+  const [lastDirection, setLastDirection] = useState(null)
   
   const contentRef = useRef(null)
   const imageRef = useRef(null)
@@ -21,6 +22,7 @@ const Machines = () => {
   const handleNext = () => {
     if (isAnimating) return
     setIsAnimating(true)
+    setLastDirection('next')
     gsap.to([contentRef.current, imageRef.current], {
       opacity: 0,
       x: -40,
@@ -35,6 +37,7 @@ const Machines = () => {
   const handlePrev = () => {
     if (isAnimating) return
     setIsAnimating(true)
+    setLastDirection('prev')
     gsap.to([contentRef.current, imageRef.current], {
       opacity: 0,
       x: 40,
@@ -64,7 +67,7 @@ const Machines = () => {
   return (
     <section 
       ref={sectionRef}
-      className="snap-section w-full md:w-screen min-h-screen md:h-screen flex flex-col md:flex-row justify-center items-center px-6 md:px-20 shrink-0 border-b md:border-b-0 md:border-r border-white/5 relative z-10 pointer-events-auto gap-8 md:gap-12 py-24 md:py-0 overflow-y-auto hide-scrollbar"
+      className="snap-section w-full md:w-screen min-h-screen md:h-screen flex flex-col md:flex-row justify-center items-center px-6 md:px-20 shrink-0 border-b md:border-b-0 md:border-r border-white/5 relative z-10 pointer-events-auto gap-6 md:gap-12 py-16 md:py-0 overflow-visible"
     >
       {/* Left Side: Project Info Card (Esfyq Artifacts Style) */}
       <div 
@@ -74,7 +77,7 @@ const Machines = () => {
           borderColor: 'var(--surface-border)',
         }}
       >
-        <div ref={contentRef} className="space-y-6">
+        <div ref={contentRef} className="space-y-4 sm:space-y-6">
           <div className="space-y-2">
             <span className="font-mono text-xs uppercase tracking-[0.3em] block font-bold text-brand-orange">
               III — MACHINES
@@ -114,10 +117,10 @@ const Machines = () => {
           </div>
 
           {/* Action Buttons & Carousel Nav */}
-          <div className="flex items-center justify-between pt-6 border-t border-white/10 gap-4">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between pt-6 border-t border-white/10 gap-2 sm:gap-4">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               {project.isLocked ? (
-                <span className="px-6 py-2.5 rounded-full border text-xs font-bold font-mono opacity-40 cursor-not-allowed" style={{ borderColor: 'var(--surface-border)', color: 'var(--text-color)' }}>
+                <span className="px-4 sm:px-6 py-2 sm:py-2.5 rounded-full border text-[10px] sm:text-xs font-bold font-mono opacity-40 cursor-not-allowed" style={{ borderColor: 'var(--surface-border)', color: 'var(--text-color)' }}>
                   Locked Spec
                 </span>
               ) : (
@@ -130,10 +133,10 @@ const Machines = () => {
                       whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.95 }}
                       transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                      className="glass-button inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold font-mono tracking-wider shadow-md"
+                      className="glass-button inline-flex items-center gap-1.5 px-3.5 sm:px-6 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-bold font-mono tracking-wider shadow-md"
                     >
                       <span>Live Demo</span>
-                      <ExternalLink size={14} />
+                      <ExternalLink size={12} className="sm:w-3.5 sm:h-3.5" />
                     </motion.a>
                   )}
                   {project.hasCaseStudy && (
@@ -142,10 +145,10 @@ const Machines = () => {
                       whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.95 }}
                       transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                      className="glass-button inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold font-mono tracking-wider shadow-md cursor-pointer"
+                      className="glass-button inline-flex items-center gap-1.5 px-3.5 sm:px-6 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-bold font-mono tracking-wider shadow-md cursor-pointer"
                     >
                       <span>Case Study</span>
-                      <ExternalLink size={14} />
+                      <ExternalLink size={12} className="sm:w-3.5 sm:h-3.5" />
                     </motion.button>
                   )}
                   {project.github && (
@@ -156,9 +159,9 @@ const Machines = () => {
                       whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.95 }}
                       transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                      className="glass-button inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold font-mono tracking-wider shadow-md"
+                      className="glass-button inline-flex items-center gap-1.5 px-3 sm:px-5 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-bold font-mono tracking-wider shadow-md"
                     >
-                      <Github size={13} />
+                      <Github size={12} className="sm:w-3.5 sm:h-3.5" />
                       <span>GitHub</span>
                     </motion.a>
                   )}
@@ -166,23 +169,39 @@ const Machines = () => {
               )}
             </div>
 
-            <div className="flex items-center gap-3">
-              <button 
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              <motion.button 
                 onClick={handlePrev} 
-                className="w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 bg-transparent cursor-pointer"
-                style={{ borderColor: 'var(--surface-border)', color: 'var(--text-color)' }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                animate={{ 
+                  x: lastDirection === 'prev' ? -8 : 0,
+                  borderColor: lastDirection === 'prev' ? 'var(--brand-orange, #f97316)' : 'var(--surface-border)',
+                  color: lastDirection === 'prev' ? 'var(--brand-orange, #f97316)' : 'var(--text-color)',
+                  boxShadow: lastDirection === 'prev' ? '0 0 12px rgba(249, 115, 22, 0.3)' : 'none'
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border flex items-center justify-center bg-transparent cursor-pointer shrink-0"
                 aria-label="Previous Project"
               >
-                <ArrowLeft size={16} />
-              </button>
-              <button 
+                <ArrowLeft size={14} className="sm:w-4 sm:h-4" />
+              </motion.button>
+              <motion.button 
                 onClick={handleNext} 
-                className="w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 bg-transparent cursor-pointer"
-                style={{ borderColor: 'var(--surface-border)', color: 'var(--text-color)' }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                animate={{ 
+                  x: lastDirection === 'next' ? 8 : 0,
+                  borderColor: lastDirection === 'next' ? 'var(--brand-orange, #f97316)' : 'var(--surface-border)',
+                  color: lastDirection === 'next' ? 'var(--brand-orange, #f97316)' : 'var(--text-color)',
+                  boxShadow: lastDirection === 'next' ? '0 0 12px rgba(249, 115, 22, 0.3)' : 'none'
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border flex items-center justify-center bg-transparent cursor-pointer shrink-0"
                 aria-label="Next Project"
               >
-                <ArrowRight size={16} />
-              </button>
+                <ArrowRight size={14} className="sm:w-4 sm:h-4" />
+              </motion.button>
             </div>
           </div>
         </div>
@@ -191,7 +210,7 @@ const Machines = () => {
       {/* Right Side: Chat Mockup or Image Preview */}
       <div 
         ref={imageRef}
-        className="w-full md:w-[50%] h-[50vh] md:h-[65vh] relative rounded-2xl overflow-hidden border backdrop-blur-xl shadow-2xl my-auto"
+        className="w-full md:w-[50%] h-[42vh] md:h-[65vh] relative rounded-2xl overflow-hidden border backdrop-blur-xl shadow-2xl my-auto mb-10 md:mb-auto"
         style={{ borderColor: 'var(--surface-border)' }}
       >
         {project.isChatMockup ? (

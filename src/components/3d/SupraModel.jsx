@@ -124,6 +124,9 @@ export const SupraModel = (props) => {
     const xOffset = currentX.current * (isMobile ? 0.005 : 0.02)
     groupRef.current.position.x = xOffset
 
+    // Dynamic scale update to respond instantly to window resize/orientation shifts
+    scene.scale.setScalar(isMobile ? 42 : 100)
+
     // Handle interactive Engine Rev physical vibration & flame burst
     if (revTime.current > 0) {
       revTime.current -= delta
@@ -164,11 +167,10 @@ export const SupraModel = (props) => {
   })
 
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
-  const modelScale = isMobile ? 42 : 100
 
   return (
     <group ref={groupRef} {...props} dispose={null}>
-      <primitive object={scene} scale={modelScale} position={[0, isMobile ? -0.5 : -1, 0]} />
+      <primitive object={scene} scale={1} position={[0, isMobile ? -0.5 : -1, 0]} />
 
       {/* Exhaust glow - orange point light under rear */}
       <pointLight

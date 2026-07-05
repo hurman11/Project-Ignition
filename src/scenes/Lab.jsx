@@ -121,58 +121,80 @@ const LetterHoverDemo = () => {
 }
 
 // ─── Tab Content Renderers ─────────────────────────────────────────
-const ButtonsTab = () => (
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-    {/* Primary — REV ENGINE Style */}
-    <div className="space-y-2">
-      <span className="font-mono text-[9px] uppercase tracking-widest opacity-50 block" style={{ color: 'var(--text-color)' }}>
-        [{labTabs.buttons[0].label}]
-      </span>
-      <motion.button
-        whileHover={{ scale: 1.08, y: -2 }}
-        whileTap={{ scale: 0.94 }}
-        transition={{ type: "spring", stiffness: 500, damping: 20 }}
-        className="glass-button px-5 py-2 text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-brand-orange rounded-sm flex items-center gap-2 cursor-pointer shadow-lg w-full justify-center"
-      >
-        <Zap size={12} />
-        <span>REV ENGINE</span>
-      </motion.button>
-    </div>
+const ButtonsTab = () => {
+  const [lastDirection, setLastDirection] = useState(null)
 
-    {/* Ghost / Outline */}
-    <div className="space-y-2">
-      <span className="font-mono text-[9px] uppercase tracking-widest opacity-50 block" style={{ color: 'var(--text-color)' }}>
-        [{labTabs.buttons[1].label}]
-      </span>
-      <div className="px-5 py-2 border border-brand-orange/30 text-brand-orange font-mono text-[10px] tracking-[0.3em] uppercase bg-brand-orange/5 backdrop-blur-sm rounded-sm text-center cursor-default">
-        &lt;available for work /&gt;
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* Primary — REV ENGINE Style */}
+      <div className="space-y-2">
+        <span className="font-mono text-[9px] uppercase tracking-widest opacity-50 block" style={{ color: 'var(--text-color)' }}>
+          [{labTabs.buttons[0].label}]
+        </span>
+        <motion.button
+          whileHover={{ scale: 1.08, y: -2 }}
+          whileTap={{ scale: 0.94 }}
+          transition={{ type: "spring", stiffness: 500, damping: 20 }}
+          className="glass-button px-5 py-2 text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-brand-orange rounded-sm flex items-center gap-2 cursor-pointer shadow-lg w-full justify-center"
+        >
+          <Zap size={12} />
+          <span>REV ENGINE</span>
+        </motion.button>
+      </div>
+
+      {/* Ghost / Outline */}
+      <div className="space-y-2">
+        <span className="font-mono text-[9px] uppercase tracking-widest opacity-50 block" style={{ color: 'var(--text-color)' }}>
+          [{labTabs.buttons[1].label}]
+        </span>
+        <div className="px-5 py-2 border border-brand-orange/30 text-brand-orange font-mono text-[10px] tracking-[0.3em] uppercase bg-brand-orange/5 backdrop-blur-sm rounded-sm text-center cursor-default">
+          &lt;available for work /&gt;
+        </div>
+      </div>
+
+      {/* Icon Button */}
+      <div className="space-y-2">
+        <span className="font-mono text-[9px] uppercase tracking-widest opacity-50 block" style={{ color: 'var(--text-color)' }}>
+          [{labTabs.buttons[2].label}]
+        </span>
+        <div className="flex items-center gap-3">
+          <motion.button 
+            onClick={() => setLastDirection('prev')}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            animate={{ 
+              x: lastDirection === 'prev' ? -8 : 0,
+              borderColor: lastDirection === 'prev' ? 'var(--brand-orange, #f97316)' : 'var(--surface-border)',
+              color: lastDirection === 'prev' ? 'var(--brand-orange, #f97316)' : 'var(--text-color)',
+              boxShadow: lastDirection === 'prev' ? '0 0 12px rgba(249, 115, 22, 0.3)' : 'none'
+            }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+            className="w-10 h-10 rounded-full border flex items-center justify-center bg-transparent cursor-pointer"
+            aria-label="Previous"
+          >
+            <ArrowLeft size={16} />
+          </motion.button>
+          <motion.button 
+            onClick={() => setLastDirection('next')}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            animate={{ 
+              x: lastDirection === 'next' ? 8 : 0,
+              borderColor: lastDirection === 'next' ? 'var(--brand-orange, #f97316)' : 'var(--surface-border)',
+              color: lastDirection === 'next' ? 'var(--brand-orange, #f97316)' : 'var(--text-color)',
+              boxShadow: lastDirection === 'next' ? '0 0 12px rgba(249, 115, 22, 0.3)' : 'none'
+            }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+            className="w-10 h-10 rounded-full border flex items-center justify-center bg-transparent cursor-pointer"
+            aria-label="Next"
+          >
+            <ArrowRight size={16} />
+          </motion.button>
+        </div>
       </div>
     </div>
-
-    {/* Icon Button */}
-    <div className="space-y-2">
-      <span className="font-mono text-[9px] uppercase tracking-widest opacity-50 block" style={{ color: 'var(--text-color)' }}>
-        [{labTabs.buttons[2].label}]
-      </span>
-      <div className="flex items-center gap-3">
-        <button 
-          className="w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 bg-transparent cursor-pointer"
-          style={{ borderColor: 'var(--surface-border)', color: 'var(--text-color)' }}
-          aria-label="Previous"
-        >
-          <ArrowLeft size={16} />
-        </button>
-        <button 
-          className="w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 bg-transparent cursor-pointer"
-          style={{ borderColor: 'var(--surface-border)', color: 'var(--text-color)' }}
-          aria-label="Next"
-        >
-          <ArrowRight size={16} />
-        </button>
-      </div>
-    </div>
-  </div>
-)
+  )
+}
 
 const CardsTab = () => (
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
