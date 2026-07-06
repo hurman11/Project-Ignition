@@ -130,7 +130,7 @@ const Ignition = () => {
             className="hero-subtitle text-base md:text-3xl text-gray-400 font-bold tracking-[0.3em] md:tracking-[0.4em] mt-2 md:mt-4 uppercase"
             style={{ opacity: 0, transform: 'translateX(-20px)' }}
           >
-            Full Stack <span className="text-brand-orange">Developer</span>
+            Front End <span className="text-brand-orange">Developer</span>
           </h2>
         </motion.div>
         
