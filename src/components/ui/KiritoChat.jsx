@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import cyberpunkCity from '../../assets/cyberpunk_city_night.png'
-import kiritoAvatar from '../../assets/kirito_avatar.png'
+import cyberpunkCity from '../../assets/cyberpunk_city_night.webp'
+import kiritoAvatar from '../../assets/kirito_avatar.webp'
 
 const MESSAGES = [
   { id: 1, type: 'user', text: '.stats', delay: 0 },
@@ -137,6 +137,7 @@ const KiritoChat = () => {
 
   useEffect(() => {
     runSequence(0)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     return () => clearAllTimeouts()
   }, [])
 

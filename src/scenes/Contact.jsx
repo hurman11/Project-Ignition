@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 
 const Contact = () => {
   const [submitted, setSubmitted] = useState(false)

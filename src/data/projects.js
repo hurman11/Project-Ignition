@@ -1,4 +1,4 @@
-import nexusQuizImg from '../assets/nexus_quiz_engine.png'
+import nexusQuizImg from '../assets/nexus_quiz_engine.webp'
 
 export const projects = [
   {

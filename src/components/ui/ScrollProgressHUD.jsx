@@ -1,4 +1,4 @@
-import { useScroll, motion } from 'framer-motion'
+import { useScroll } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { useLenis } from 'lenis/react'
 

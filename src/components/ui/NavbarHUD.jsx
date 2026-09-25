@@ -15,14 +15,15 @@ const NavbarHUD = () => {
   const { scrollYProgress } = useScroll()
   const [activeIndex, setActiveIndex] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
-  const [theme, setTheme] = useState('dark')
+  const [theme, setTheme] = useState(() => {
+    if (typeof document !== 'undefined' && document.documentElement.classList.contains('light-mode')) {
+      return 'light'
+    }
+    return 'dark'
+  })
   const lenis = useLenis()
 
-  useEffect(() => {
-    if (document.documentElement.classList.contains('light-mode')) {
-      setTheme('light')
-    }
-  }, [])
+
 
   const toggleTheme = () => {
     const newTheme = theme === 'dark' ? 'light' : 'dark'
