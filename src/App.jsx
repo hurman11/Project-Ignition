@@ -17,13 +17,12 @@ function App() {
   const wrapperRef = useRef(null)
   const { scrollYProgress } = useScroll()
   const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 30, restDelta: 0.001 })
-  
-  // Sync Lenis scroll with GSAP ScrollTrigger
+
   useLenis(ScrollTrigger.update)
 
   useEffect(() => {
     gsap.ticker.lagSmoothing(0)
-    
+
     return () => {
       ScrollTrigger.killAll()
     }
@@ -60,18 +59,18 @@ function App() {
   return (
     <>
       <LoadingScreen />
-      
+
       <ReactLenis root options={{ lerp: 0.2, duration: 1.2, smoothTouch: false }}>
         <Cursor />
         <NavbarHUD />
         <ScrollProgressHUD />
 
         {/* Bottom Progress Bar */}
-        <motion.div 
+        <motion.div
           className="fixed bottom-0 left-0 right-0 h-1 z-[100] origin-left bg-gradient-to-r from-brand-orange to-amber-500 shadow-[0_0_12px_rgba(249,115,22,0.8)]"
           style={{ scaleX }}
         />
-        
+
         {/* 3D Canvas fixed in background */}
         <div className="fixed inset-0 z-0 pointer-events-none">
           <SceneController />
@@ -79,8 +78,8 @@ function App() {
 
         {/* Scrolling container */}
         <div className="relative w-full h-auto md:h-screen overflow-x-hidden min-h-screen" ref={containerRef} style={{ color: 'var(--text-color)' }}>
-          <div 
-            ref={wrapperRef} 
+          <div
+            ref={wrapperRef}
             className="w-full md:w-[500vw] flex flex-col md:flex-row z-10 relative md:absolute top-0 left-0 will-change-transform min-h-screen"
           >
             <SceneOverlay />
